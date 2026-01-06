@@ -4,31 +4,42 @@
 
 ```bash
 src/
-├── handlers/            # entry points (lambdas)
-│   ├── create_user.py
-│   ├── get_user.py
-│   └── health.py
+├── main.py                  # FastAPI app
 │
-├── services/            # lógica de negocio
+├── api/                     # Capa HTTP (routers)
+│   └── v1/
+│       ├── users.py
+│       └── health.py
+│
+├── services/                # Lógica de negocio
 │   └── user_service.py
 │
-├── repositories/        # acceso a datos
+├── repositories/            # Acceso a datos
 │   └── user_repository.py
 │
-├── models/              # modelos simples
+├── models/                  # Modelos de dominio (simples)
 │   └── user.py
 │
-├── shared/
-│   ├── response.py
-│   ├── validation.py
-│   └── config.py
+├── schemas/                 # DTOs / Pydantic (request/response)
+│   └── user_schema.py
 │
-└── settings.py          # app settings
+├── shared/
+│   ├── config.py
+│   ├── responses.py
+│   └── logging.py
+│
+└── dependencies.py          # DI ligera (FastAPI style)
 
 ```
 
 ## Workflow
 
 ```bash
-handler → service → repository
+Request
+  ↓
+Router (api)
+  ↓
+Service
+  ↓
+Repository
 ```
