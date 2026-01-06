@@ -2,19 +2,20 @@
 
 ## Structure
 
+```bash
 src/
 ├── handlers/            # entry points (lambdas)
 │   ├── create_user.py
 │   ├── get_user.py
 │   └── health.py
 │
-├── services/            # bussines logic
+├── services/            # lógica de negocio
 │   └── user_service.py
 │
-├── repositories/        # data access
+├── repositories/        # acceso a datos
 │   └── user_repository.py
 │
-├── models/              # models
+├── models/              # modelos simples
 │   └── user.py
 │
 ├── shared/
@@ -22,8 +23,12 @@ src/
 │   ├── validation.py
 │   └── config.py
 │
-└── settings.py          # App settings
+└── settings.py          # app settings
+
+```
 
 ## Workflow
 
+```bash
 handler → service → repository
+```
