@@ -1,0 +1,24 @@
+name: Validate branch name
+
+on:
+  pull_request:
+    types: [opened, edited, synchronize]
+
+jobs:
+  validate-branch-name:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Validate branch name
+        run: |
+          BRANCH="${{ github.head_ref }}"
+          echo "Validating branch: $BRANCH"
+
+          REGEX="^(feature|bugfix|hotfix|release|docs|refactor)/[a-z0-9]+(-[a-z0-9]+)*$"
+
+          if [[ ! "$BRANCH" =~ $REGEX ]]; then
+            echo "Invalid branch name: $BRANCH"
+            echo "Expected: feature|bugfix|hotfix|release|docs|refactor/xxx--yyy"
+            exit 1
+          fi
+
+          echo "Branch name is valid"
