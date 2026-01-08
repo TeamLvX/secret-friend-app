@@ -1,0 +1,4 @@
+from src.infrastructure.dynamodb.repositories.group_repository_pynamodb import GroupRepositoryPynamoDB
+from src.infrastructure.dynamodb.repositories.assignment_repository_pynamodb import AssignmentRepositoryPynamoDB
+
+__all__ = ["GroupRepositoryPynamoDB", "AssignmentRepositoryPynamoDB"]
