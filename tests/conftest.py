@@ -14,19 +14,19 @@ os.environ.setdefault("AWS_SECURITY_TOKEN", "testing")
 os.environ.setdefault("AWS_SESSION_TOKEN", "testing")
 
 from moto import mock_aws
-from src.infrastructure.dynamodb.models import GroupModel, AssignmentModel, GameParticipantModel
+from src.infrastructure.dynamodb.models import GroupDynamoDBModel, AssignmentDynamoDBModel, ParticipantDynamoDBModel
 
 @pytest.fixture(scope="function", autouse=True)
 def mock_dynamodb_function(monkeypatch):
     
-    monkeypatch.setattr(GroupModel.Meta, "host", None)
-    monkeypatch.setattr(AssignmentModel.Meta, "host", None)
-    monkeypatch.setattr(GameParticipantModel.Meta, "host", None)
+    monkeypatch.setattr(GroupDynamoDBModel.Meta, "host", None)
+    monkeypatch.setattr(AssignmentDynamoDBModel.Meta, "host", None)
+    monkeypatch.setattr(ParticipantDynamoDBModel.Meta, "host", None)
     
     with mock_aws():
         try:
-            if not GroupModel.exists():
-                GroupModel.create_table(
+            if not GroupDynamoDBModel.exists():
+                GroupDynamoDBModel.create_table(
                     read_capacity_units=1,
                     write_capacity_units=1,
                     wait=True)
@@ -34,8 +34,8 @@ def mock_dynamodb_function(monkeypatch):
             pass
 
         try:
-            if not AssignmentModel.exists():
-                AssignmentModel.create_table(
+            if not AssignmentDynamoDBModel.exists():
+                AssignmentDynamoDBModel.create_table(
                     read_capacity_units=1,
                     write_capacity_units=1,
                     wait=True)
@@ -43,8 +43,8 @@ def mock_dynamodb_function(monkeypatch):
             pass
             
         try:
-            if not GameParticipantModel.exists():
-                GameParticipantModel.create_table(
+            if not ParticipantDynamoDBModel.exists():
+                ParticipantDynamoDBModel.create_table(
                     read_capacity_units=1,
                     write_capacity_units=1,
                     wait=True)

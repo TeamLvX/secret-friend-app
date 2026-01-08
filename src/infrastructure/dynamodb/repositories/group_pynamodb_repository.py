@@ -1,12 +1,13 @@
+from src.infrastructure.dynamodb.models import GroupDynamoDBModel
 from src.models import GroupModel
-from src.infrastructure.dynamodb.models import GroupModel as GroupModelPynamoDB
+
 from uuid import uuid4
 from pynamodb.exceptions import DoesNotExist
 
-class GroupRepositoryPynamoDB:
+class GroupPynamoDBRepository:
     def save(self, model: GroupModel) -> GroupModel:
         game_id = str(uuid4())
-        item = GroupModelPynamoDB(
+        item = GroupDynamoDBModel(
             id=game_id,
             name=model.name,
             description=model.description,
@@ -28,7 +29,7 @@ class GroupRepositoryPynamoDB:
 
     def get_by_id(self, identifier: str) -> GroupModel | None:
         try:
-            item = GroupModelPynamoDB.get(identifier)
+            item = GroupDynamoDBModel.get(identifier)
             return GroupModel(
                 id=item.id,
                 name=item.name,

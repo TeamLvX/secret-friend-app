@@ -8,3 +8,6 @@ class Repository(Protocol[TModel]):
 
     def get_by_id(self, identifier: str) -> TModel | None:
         pass
+
+    def get_list_by_id(self, identifier:str) -> list[TModel] | None:
+        pass

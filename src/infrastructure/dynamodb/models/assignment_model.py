@@ -2,7 +2,7 @@ from pynamodb.models import Model
 from pynamodb.attributes import (UnicodeAttribute, BooleanAttribute, UTCDateTimeAttribute)
 from src.core.config import settings
 
-class AssignmentModel(Model):
+class AssignmentDynamoDBModel(Model):
     class Meta:
         table_name = "assignment_collection"
         host = settings.dynamodb_host
