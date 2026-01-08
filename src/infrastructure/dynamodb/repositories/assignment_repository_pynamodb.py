@@ -32,7 +32,8 @@ class AssignmentRepositoryPynamoDB:
 
     def get_by_id(self, id: str) -> AssignmentModel | None:
         try:
-            item = AssignmentModelPynamoDB.get(id)
+            print(id)
+            item = AssignmentModelPynamoDB.get(id, range_key=None)
             return AssignmentModel(
                 id=item.id,
                 group_id=item.group_id,
@@ -49,8 +50,20 @@ class AssignmentRepositoryPynamoDB:
 
     def get_by_group_id(self, group_id: str) -> AssignmentsRead | None:
         try:
-            items = AssignmentModelPynamoDB.query(group_id)
             assignments: List[AssignmentModel] = []
+            for item in AssignmentModelPynamoDB.query(None, AssignmentModelPynamoDB.group_id == group_id):
+                assignments.append(AssignmentModel(
+                id=item.id,
+                group_id=item.group_id,
+                group_name=None,
+                giver_id=item.giver_id,
+                giver_name=None,
+                receiver_id=item.receiver_id,
+                receiver_name=None,
+                status=item.status,
+                shown_at=item.shown_at
+            ))
+
             return AssignmentsRead(
                 assignments=assignments
             )

@@ -8,9 +8,9 @@ class AssignmentModel(Model):
         host = settings.dynamodb_host
         region = settings.aws_region
 
-    id = UnicodeAttribute(hash_key=True, null=False)
-    group_id = UnicodeAttribute(null=False)
-    giver_id = UnicodeAttribute(null=True)
-    receiver_id = UnicodeAttribute(null=False)
+    id = UnicodeAttribute(hash_key=True)
+    group_id = UnicodeAttribute()
+    giver_id = UnicodeAttribute()
+    receiver_id = UnicodeAttribute()
     status = BooleanAttribute(default=False)
     shown_at = UTCDateTimeAttribute(null=True)
