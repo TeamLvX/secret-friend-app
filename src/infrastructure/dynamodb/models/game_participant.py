@@ -8,8 +8,8 @@ class GameParticipantModel(Model):
         host = settings.dynamodb_host
         region = settings.aws_region
 
-    game_id: UnicodeAttribute(hash_key=True)
-    participant_id: UnicodeAttribute(range_key=True)
-    participant_name: UnicodeAttribute()
-    participant_alias: UnicodeAttribute(null=True)
-    participant_preferences: UnicodeAttribute(null=True)
+    participant_id = UnicodeAttribute(hash_key=True)
+    game_id = UnicodeAttribute()
+    participant_name = UnicodeAttribute()
+    participant_alias = UnicodeAttribute(null=True)
+    participant_preferences = UnicodeAttribute(null=True)

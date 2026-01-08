@@ -2,7 +2,7 @@ from src.infrastructure.dynamodb.models.game_participant import GameParticipantM
 
 class GameParticipantPynamodb:
     def save(self, game_participant: GameParticipantModel) -> None:
-        game_participant.save();
+        game_participant.save()
         
     def get_by_id(self, participant_id: str) -> GameParticipantModel | None:
         try:
