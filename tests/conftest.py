@@ -14,19 +14,28 @@ os.environ.setdefault("AWS_SECURITY_TOKEN", "testing")
 os.environ.setdefault("AWS_SESSION_TOKEN", "testing")
 
 from moto import mock_aws
-from src.infrastructure.dynamodb.models.game_model import GameModel
-from src.infrastructure.dynamodb.models.game_participant import GameParticipantModel
+from src.infrastructure.dynamodb.models import GroupModel, AssignmentModel, GameParticipantModel
 
 @pytest.fixture(scope="function", autouse=True)
 def mock_dynamodb_function(monkeypatch):
     
-    monkeypatch.setattr(GameModel.Meta, "host", None)
+    monkeypatch.setattr(GroupModel.Meta, "host", None)
+    monkeypatch.setattr(AssignmentModel.Meta, "host", None)
     monkeypatch.setattr(GameParticipantModel.Meta, "host", None)
     
     with mock_aws():
         try:
-            if not GameModel.exists():
-                GameModel.create_table(
+            if not GroupModel.exists():
+                GroupModel.create_table(
+                    read_capacity_units=1,
+                    write_capacity_units=1,
+                    wait=True)
+        except Exception:
+            pass
+
+        try:
+            if not AssignmentModel.exists():
+                AssignmentModel.create_table(
                     read_capacity_units=1,
                     write_capacity_units=1,
                     wait=True)
@@ -41,5 +50,5 @@ def mock_dynamodb_function(monkeypatch):
                     wait=True)
         except Exception:
             pass
-            
+
         yield

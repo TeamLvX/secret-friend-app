@@ -1,4 +1,4 @@
-from models import GroupModel
+from src.models import GroupModel
 from src.infrastructure.dynamodb.models import GroupModel as GroupModelPynamoDB
 from uuid import uuid4
 from pynamodb.exceptions import DoesNotExist

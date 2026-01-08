@@ -39,4 +39,4 @@ class AssignmentCreate:
 @dataclass
 class AssignmentsRead:
     """Class for collecting group of assignment details"""
-    assignments: List[AssignmentRead]
+    assignments: List[AssignmentModel]
