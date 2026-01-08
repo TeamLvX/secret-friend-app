@@ -1,8 +1,7 @@
-from typing import Protocol
-from src.models import AssignmentRead, AssignmentCreate, AssignmentsRead
+from typing import Protocol, TypeVar
 
-class AssignmentRepository(Protocol):
-    def save(self, assignment: AssignmentCreate) -> AssignmentRead:
-        pass
-    def get_by_group_id(self, group_id: str) -> AssignmentsRead | None:
+TModel = TypeVar('TModel', bound='AssignmentRepository')
+
+class AssignmentRepository(Protocol[TModel]):
+    def get_by_group_id(self, group_id: str) -> TModel | None:
         pass

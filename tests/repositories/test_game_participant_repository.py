@@ -1,5 +1,5 @@
-from src.infrastructure.dynamodb.models.game_participant import GameParticipantModel
-from src.infrastructure.dynamodb.repositories.game_participant_repository import GameParticipantPynamodb
+from src.infrastructure.dynamodb.models import GameParticipantModel
+from src.infrastructure.dynamodb.repositories import GameParticipantPynamodb
 
 def test_save_and_get_game_participant(mock_dynamodb_function):
 
