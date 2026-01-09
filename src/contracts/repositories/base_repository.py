@@ -1,4 +1,4 @@
-from typing import Protocol, TypeVar
+from typing import Optional, Protocol, TypeVar
 
 TModel = TypeVar('TModel', bound='Repository')
 
@@ -6,8 +6,8 @@ class Repository(Protocol[TModel]):
     def save(self, model: TModel) -> TModel:
         pass
 
-    def get_by_id(self, identifier: str) -> TModel | None:
+    def get(self, arg1:str, arg2: Optional[str]) -> TModel | None:
         pass
 
-    def get_list_by_id(self, identifier:str) -> list[TModel] | None:
+    def get_list(self, arg:str) -> list[TModel] | None:
         pass

@@ -4,7 +4,7 @@ from src.core.config import settings
 
 class ParticipantDynamoDBModel(Model):
     class Meta:
-        table_name = "game_participant"
+        table_name = "participant_collection"
         host = settings.dynamodb_host
         region = settings.aws_region
 
