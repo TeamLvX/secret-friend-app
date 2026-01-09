@@ -1,5 +1,5 @@
-from .group_model import GroupDynamoDBModel
-from .assignment_model import AssignmentDynamoDBModel
-from .participant_model import ParticipantDynamoDBModel
+from .assignment_model import Assignment
+from .group_model import Group
+from .participant_model import Participant
 
-__all__ = ["GroupDynamoDBModel", "AssignmentDynamoDBModel","ParticipantDynamoDBModel"]
+__all__ = ["Group", "Assignment", "Participant"]

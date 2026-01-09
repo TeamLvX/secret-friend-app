@@ -1,8 +1,10 @@
+from pynamodb.attributes import NumberAttribute, UnicodeAttribute, UTCDateTimeAttribute
 from pynamodb.models import Model
-from pynamodb.attributes import (UnicodeAttribute, NumberAttribute, UTCDateTimeAttribute)
+
 from src.core.config import settings
 
-class GroupDynamoDBModel(Model):
+
+class Group(Model):
     class Meta:
         table_name = "group_collection"
         host = settings.dynamodb_host

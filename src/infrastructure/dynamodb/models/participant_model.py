@@ -1,8 +1,10 @@
-from pynamodb.models import Model
 from pynamodb.attributes import UnicodeAttribute
+from pynamodb.models import Model
+
 from src.core.config import settings
 
-class ParticipantDynamoDBModel(Model):
+
+class Participant(Model):
     class Meta:
         table_name = "participant_collection"
         host = settings.dynamodb_host
@@ -13,4 +15,3 @@ class ParticipantDynamoDBModel(Model):
     name = UnicodeAttribute()
     alias = UnicodeAttribute(null=True)
     preferences = UnicodeAttribute(null=True)
-

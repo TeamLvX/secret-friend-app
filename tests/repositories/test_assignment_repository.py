@@ -1,14 +1,21 @@
-import pytest
 from datetime import datetime
-from src.infrastructure.dynamodb.models import GroupDynamoDBModel, AssignmentDynamoDBModel
-from src.infrastructure.dynamodb.repositories import GroupPynamoDBRepository, AssignmentPynamoDBRepository
+
+import pytest
+
+from src.infrastructure.dynamodb.models import Assignment as DynamoAssignment
+from src.infrastructure.dynamodb.models import Group as DynamoGroup
+from src.infrastructure.dynamodb.repositories import (
+    AssignmentRepository,
+    GroupRepository,
+)
+
 
 @pytest.fixture(scope="function", autouse=True)
 def default_group_model(mock_dynamodb_function):
-    repo = GroupPynamoDBRepository()
+    repo = GroupRepository()
 
     return repo.save(
-        GroupDynamoDBModel(
+        DynamoGroup(
             name="my secret santa group",
             description="we will play the secret santa gane in the office",
             exchange_date=datetime.now(),
@@ -17,11 +24,12 @@ def default_group_model(mock_dynamodb_function):
         )
     )
 
+
 def test_save_and_get_assignment(default_group_model):
-    repo = AssignmentPynamoDBRepository()
+    repo = AssignmentRepository()
 
     assignment = repo.save(
-        AssignmentDynamoDBModel(
+        DynamoAssignment(
             group_id=default_group_model.id,
             giver_id="1",
             receiver_id="2",
@@ -38,7 +46,9 @@ def test_save_and_get_assignment(default_group_model):
     assert result.receiver_id == assignment.receiver_id
     assert result.status == assignment.status
     assert result.shown_at == assignment.shown_at
-'''
+
+
+"""
 def test_save_and_get_assignment_by_group_id(default_group_model):
     repo = AssignmentRepositoryPynamoDB()
 
@@ -69,4 +79,4 @@ def test_save_and_get_assignment_by_group_id(default_group_model):
     #assert result.receiver_id == assignment.receiver_id
     #assert result.status == assignment.status
     #assert result.shown_at == assignment.shown_at
-'''
+"""

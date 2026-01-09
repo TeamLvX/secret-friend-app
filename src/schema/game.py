@@ -1,34 +1,38 @@
-from typing import Optional
+from datetime import UTC, datetime
+
 from pydantic import BaseModel, Field
 
-class GameCreateRequest(BaseModel):
-    title: str = Field(min_length=3)
-    author: str = Field(min_length=2)
-    category: str = Field(min_length=1, max_length=100)
-    rating: int = Field(gt=0, le=5)
-    published_date: int = Field(gt=1999, le=2031)
+from src.schema.assignment import Assignment
+from src.schema.participant import Participant
 
-    class Config:
-        schema_extra = {
-            "example": {
-                "title": "Software Development",
-                "author": "codingwithjhon",
-                "category": "Programming",
-                "rating": 4,
-                "published_date": 1999,
-            }
-        }
+
+class GameCreateRequest(BaseModel):
+    name: str = Field(min_length=4, description="Game's name")
+    description: str | None = Field(min_length=1, description="Game's optional description")
+    host: str = Field(min_length=1, description="Game's organizer")
+    exchange_date: datetime = Field(
+        default_factory=lambda: UTC, description="Game's datetime to exchange gifs"
+    )
+    budget: float = Field(ge=0.0, description="Game's budget of the gifs")
+    players: list[Participant] = Field(default_factory=list, description="Game's participants")
+
 
 class GameReadRequest(BaseModel):
-    id: Optional[int] = Field(description="ID is not needed on Create", default=None)
-    title: str = Field(min_length=3)
-    author: str = Field(min_length=2)
-    category: str = Field(min_length=1, max_length=100)
-    rating: int = Field(gt=0, le=5)
-    published_date: int = Field(gt=1999, le=2031)
+    id: str
+    name: str
+    description: str
+    host: str
+    exchange_date: datetime
+    budget: float
+    players: list[Participant]
+    assigments: list[Assignment]
 
-    class Config:
-        schema_extra = {
+
+"""
+# Pydahntic v2 to define examples in the schema documentation
+
+  model_config = ConfigDict(
+        json_schema_extra={
             "example": {
                 "title": "Software Development",
                 "author": "codingwithjhon",
@@ -37,3 +41,5 @@ class GameReadRequest(BaseModel):
                 "published_date": 1999,
             }
         }
+    )
+"""

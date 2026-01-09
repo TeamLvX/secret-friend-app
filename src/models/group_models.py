@@ -1,21 +1,24 @@
 from dataclasses import dataclass
-from typing import List, Optional
+
 
 @dataclass
 class GroupModel:
     """Class for collecting entire group details and matching."""
-    id: Optional[str]
+
+    id: str | None
     name: str
     description: str
     host: str
     exchange_date: str
     budget: float
-    players: Optional[List]
-    assignment: Optional[List]
+    players: list | None
+    assignment: list | None
+
 
 @dataclass
 class GroupCreate:
     """Class for creating new group document."""
+
     id: str
     name: str
     description: str
@@ -23,14 +26,16 @@ class GroupCreate:
     budget: float
     minimo: float
 
+
 @dataclass
 class GroupRead:
     """Class for collecting entire group details and assignments."""
+
     id: str
     name: str
     description: str
     host: str
     exchange_date: str
     budget: float
-    players: Optional[List]
-    assignment: Optional[List]
+    players: list | None
+    assignment: list | None

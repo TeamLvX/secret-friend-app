@@ -43,3 +43,7 @@ Service
   ↓
 Repository
 ```
+
+- Run `make format` before pushing
+- Lint runs automatically on commit
+- Do not disable lint rules locally
