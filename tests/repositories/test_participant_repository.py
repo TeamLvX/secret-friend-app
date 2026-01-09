@@ -1,13 +1,11 @@
+from src.infrastructure.dynamodb.repositories import ParticipantRepository
+from src.models import Participant
 
-
-from src.infrastructure.dynamodb.repositories import ParticipantPynamoDBRepository
-from src.models import ParticipantModel
 
 def test_save_and_get_by_id():
+    repo = ParticipantRepository()
 
-    repo = ParticipantPynamoDBRepository()
-
-    participant = ParticipantModel(
+    participant = Participant(
         group_id="123",
         id="456",
         name="John Doe",
@@ -24,10 +22,11 @@ def test_save_and_get_by_id():
     assert result.alias == participant.alias
     assert result.preferences == participant.preferences
 
-def test_save_and_get_list_by_group_id():
-    repo = ParticipantPynamoDBRepository()
 
-    participant = ParticipantModel(
+def test_save_and_get_list_by_group_id():
+    repo = ParticipantRepository()
+
+    participant = Participant(
         group_id="123",
         id="456",
         name="John Doe",

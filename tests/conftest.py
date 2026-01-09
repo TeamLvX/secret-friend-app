@@ -1,4 +1,5 @@
 import os
+
 import pytest
 
 # Set environment variables before any imports that use settings
@@ -14,40 +15,32 @@ os.environ.setdefault("AWS_SECURITY_TOKEN", "testing")
 os.environ.setdefault("AWS_SESSION_TOKEN", "testing")
 
 from moto import mock_aws
-from src.infrastructure.dynamodb.models import GroupDynamoDBModel, AssignmentDynamoDBModel, ParticipantDynamoDBModel
+
+from src.infrastructure.dynamodb.models import Assignment, Group, Participant
+
 
 @pytest.fixture(scope="function", autouse=True)
 def mock_dynamodb_function(monkeypatch):
-    
-    monkeypatch.setattr(GroupDynamoDBModel.Meta, "host", None)
-    monkeypatch.setattr(AssignmentDynamoDBModel.Meta, "host", None)
-    monkeypatch.setattr(ParticipantDynamoDBModel.Meta, "host", None)
-    
+    monkeypatch.setattr(Group.Meta, "host", None)
+    monkeypatch.setattr(Assignment.Meta, "host", None)
+    monkeypatch.setattr(Participant.Meta, "host", None)
+
     with mock_aws():
         try:
-            if not GroupDynamoDBModel.exists():
-                GroupDynamoDBModel.create_table(
-                    read_capacity_units=1,
-                    write_capacity_units=1,
-                    wait=True)
+            if not Group.exists():
+                Group.create_table(read_capacity_units=1, write_capacity_units=1, wait=True)
         except Exception:
             pass
 
         try:
-            if not AssignmentDynamoDBModel.exists():
-                AssignmentDynamoDBModel.create_table(
-                    read_capacity_units=1,
-                    write_capacity_units=1,
-                    wait=True)
+            if not Assignment.exists():
+                Assignment.create_table(read_capacity_units=1, write_capacity_units=1, wait=True)
         except Exception:
             pass
-            
+
         try:
-            if not ParticipantDynamoDBModel.exists():
-                ParticipantDynamoDBModel.create_table(
-                    read_capacity_units=1,
-                    write_capacity_units=1,
-                    wait=True)
+            if not Participant.exists():
+                Participant.create_table(read_capacity_units=1, write_capacity_units=1, wait=True)
         except Exception:
             pass
 

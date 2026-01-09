@@ -1,20 +1,14 @@
 from dataclasses import dataclass
-from typing import Optional
+
 
 @dataclass
-class ParticipantModel:
+class Participant:
     id: str
     group_id: str
     name: str
-    alias: Optional[str] = None
-    preferences: Optional[str] = None
+    alias: str | None = None
+    preferences: str | None = None
 
     @classmethod
-    def create(cls, group_id:str, id:str, name:str, alias: Optional[str], preferences: Optional[str]):
-        return cls(
-            id = id,
-            group_id = group_id,
-            name = name,
-            alias = alias,
-            preferences = preferences
-        )
+    def create(cls, group_id: str, id: str, name: str, alias: str | None, preferences: str | None):
+        return cls(id=id, group_id=group_id, name=name, alias=alias, preferences=preferences)
