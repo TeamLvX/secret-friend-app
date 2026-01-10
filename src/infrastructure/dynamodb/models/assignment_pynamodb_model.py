@@ -4,7 +4,7 @@ from pynamodb.models import Model
 from src.core.config import settings
 
 
-class Assignment(Model):
+class AssignmentPynamoDB(Model):
     class Meta:
         table_name = "assignment_collection"
         host = settings.dynamodb_host

@@ -1,5 +1,9 @@
-from .assignment_repository import AssignmentRepository
-from .group_repository import GroupRepository
-from .participant_repository import ParticipantRepository
+from .assignment_pynamodb_repository import AssignmentPynamoDBRepository
+from .group_pynamodb_repository import GroupPynamoDBRepository
+from .participant_pynamodb_repository import ParticipantPynamoDBRepository
 
-__all__ = ["GroupRepository", "AssignmentRepository", "ParticipantRepository"]
+__all__ = [
+    "AssignmentPynamoDBRepository",
+    "GroupPynamoDBRepository",
+    "ParticipantPynamoDBRepository",
+]

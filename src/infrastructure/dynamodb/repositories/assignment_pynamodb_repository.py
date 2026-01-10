@@ -2,14 +2,14 @@ from uuid import uuid4
 
 from pynamodb.exceptions import DoesNotExist
 
-from src.infrastructure.dynamodb.models import Assignment as DynamoAssignment
+from src.infrastructure.dynamodb.models import AssignmentPynamoDB
 from src.models import AssignmentModel, AssignmentsRead
 
 
-class AssignmentRepository:
+class AssignmentPynamoDBRepository:
     def save(self, assignment: AssignmentModel) -> AssignmentModel:
         assignment_id = str(uuid4())
-        item = DynamoAssignment(
+        item = AssignmentPynamoDB(
             id=assignment_id,
             group_id=assignment.group_id,
             giver_id=assignment.giver_id,
@@ -33,7 +33,7 @@ class AssignmentRepository:
     def get_by_id(self, id: str) -> AssignmentModel | None:
         try:
             print(id)
-            item = DynamoAssignment.get(id, range_key=None)
+            item = AssignmentPynamoDB.get(id, range_key=None)
             return AssignmentModel(
                 id=item.id,
                 group_id=item.group_id,
@@ -51,7 +51,7 @@ class AssignmentRepository:
     def get_by_group_id(self, group_id: str) -> AssignmentsRead | None:
         try:
             assignments: list[AssignmentModel] = []
-            for item in DynamoAssignment.query(None, DynamoAssignment.group_id == group_id):
+            for item in AssignmentPynamoDB.query(None, AssignmentPynamoDB.group_id == group_id):
                 assignments.append(
                     AssignmentModel(
                         id=item.id,

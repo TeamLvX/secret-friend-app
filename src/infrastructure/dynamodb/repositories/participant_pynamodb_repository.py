@@ -1,11 +1,11 @@
 from src.infrastructure.dynamodb.mappers import participant_to_domain
-from src.infrastructure.dynamodb.models import Participant as DynamoParticipant
+from src.infrastructure.dynamodb.models import ParticipantPynamoDB
 from src.models import Participant
 
 
-class ParticipantRepository:
+class ParticipantPynamoDBRepository:
     def save(self, participant: Participant) -> None:
-        DynamoParticipant(
+        ParticipantPynamoDB(
             group_id=participant.group_id,
             id=participant.id,
             name=participant.name,
@@ -15,11 +15,11 @@ class ParticipantRepository:
 
     def get(self, group_id: str, participant_id: str) -> Participant | None:
         try:
-            participant = DynamoParticipant.get(group_id, participant_id)
+            participant = ParticipantPynamoDB.get(group_id, participant_id)
             return participant_to_domain(participant)
-        except DynamoParticipant.DoesNotExist:
+        except ParticipantPynamoDB.DoesNotExist:
             return None
 
     def get_list(self, group_id: str) -> list[Participant]:
-        participants = DynamoParticipant.query(group_id)
+        participants = ParticipantPynamoDB.query(group_id)
         return [participant_to_domain(participant) for participant in participants]

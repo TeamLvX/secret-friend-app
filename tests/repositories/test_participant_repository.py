@@ -1,9 +1,9 @@
-from src.infrastructure.dynamodb.repositories import ParticipantRepository
+from src.infrastructure.dynamodb.repositories import ParticipantPynamoDBRepository
 from src.models import Participant
 
 
 def test_save_and_get_by_id():
-    repo = ParticipantRepository()
+    repo = ParticipantPynamoDBRepository()
 
     participant = Participant(
         group_id="123",
@@ -24,7 +24,7 @@ def test_save_and_get_by_id():
 
 
 def test_save_and_get_list_by_group_id():
-    repo = ParticipantRepository()
+    repo = ParticipantPynamoDBRepository()
 
     participant = Participant(
         group_id="123",
