@@ -1,14 +1,12 @@
 from datetime import datetime
-
-from src.infrastructure.dynamodb.models import GroupPynamoDB
+from src.models import GroupModel
 from src.infrastructure.dynamodb.repositories import GroupPynamoDBRepository
-
 
 def test_save_and_get_group(mock_dynamodb_function):
     repo = GroupPynamoDBRepository()
 
     group = repo.save(
-        GroupPynamoDB(
+        GroupModel.create(
             name="my secret santa group",
             description="we will play the secret santa gane in the office",
             exchange_date=datetime.now(),
@@ -16,7 +14,7 @@ def test_save_and_get_group(mock_dynamodb_function):
             budget=100,
         )
     )
-    result = repo.get_by_id(group.id)
+    result = repo.get(group.id)
 
     assert result is not None
     assert result.id == group.id

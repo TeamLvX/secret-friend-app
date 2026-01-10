@@ -29,7 +29,7 @@ class GroupPynamoDBRepository:
             assignment=None,
         )
 
-    def get_by_id(self, identifier: str) -> GroupModel | None:
+    def get(self, identifier: str) -> GroupModel | None:
         try:
             item = GroupPynamoDB.get(identifier)
             return GroupModel(
