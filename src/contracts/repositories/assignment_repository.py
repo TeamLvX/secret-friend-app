@@ -1,5 +1,5 @@
 from typing import Protocol
-
+'''
 from src.models import AssignmentCreate, AssignmentRead, AssignmentsRead
 
 
@@ -9,3 +9,4 @@ class AssignmentRepository(Protocol):
 
     def get_by_group_id(self, group_id: str) -> AssignmentsRead | None:
         pass
+'''

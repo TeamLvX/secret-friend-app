@@ -2,8 +2,7 @@ from datetime import UTC, datetime
 
 from pydantic import BaseModel, Field
 
-from src.schema.assignment import Assignment
-from src.schema.participant import Participant
+from src.schema import AssignmentDetailsResponse, ParticipantDetailsResponse, Participant
 
 
 class GameCreateRequest(BaseModel):
@@ -16,30 +15,14 @@ class GameCreateRequest(BaseModel):
     budget: float = Field(ge=0.0, description="Game's budget of the gifs")
     players: list[Participant] = Field(default_factory=list, description="Game's participants")
 
+class GameDetailsResponse(BaseModel):
+    """Class for keeping game details."""
 
-class GameReadRequest(BaseModel):
     id: str
     name: str
     description: str
     host: str
-    exchange_date: datetime
+    exchange_date: str
     budget: float
-    players: list[Participant]
-    assigments: list[Assignment]
-
-
-"""
-# Pydahntic v2 to define examples in the schema documentation
-
-  model_config = ConfigDict(
-        json_schema_extra={
-            "example": {
-                "title": "Software Development",
-                "author": "codingwithjhon",
-                "category": "Programming",
-                "rating": 4,
-                "published_date": 1999,
-            }
-        }
-    )
-"""
+    participants: list[ParticipantDetailsResponse]
+    assignments: list[AssignmentDetailsResponse]
