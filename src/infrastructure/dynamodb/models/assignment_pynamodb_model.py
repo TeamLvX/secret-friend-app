@@ -10,8 +10,8 @@ class AssignmentPynamoDB(Model):
         host = settings.dynamodb_host
         region = settings.aws_region
 
-    id = UnicodeAttribute(hash_key=True)
-    group_id = UnicodeAttribute()
+    group_id = UnicodeAttribute(hash_key=True)
+    id = UnicodeAttribute(range_key=True)
     giver_id = UnicodeAttribute()
     receiver_id = UnicodeAttribute()
     status = BooleanAttribute(default=False)
