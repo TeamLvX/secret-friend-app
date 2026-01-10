@@ -4,7 +4,7 @@ from pynamodb.models import Model
 from src.core.config import settings
 
 
-class Participant(Model):
+class ParticipantPynamoDB(Model):
     class Meta:
         table_name = "participant_collection"
         host = settings.dynamodb_host

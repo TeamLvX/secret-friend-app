@@ -16,31 +16,39 @@ os.environ.setdefault("AWS_SESSION_TOKEN", "testing")
 
 from moto import mock_aws
 
-from src.infrastructure.dynamodb.models import Assignment, Group, Participant
+from src.infrastructure.dynamodb.models import (
+    AssignmentPynamoDB,
+    GroupPynamoDB,
+    ParticipantPynamoDB,
+)
 
 
 @pytest.fixture(scope="function", autouse=True)
 def mock_dynamodb_function(monkeypatch):
-    monkeypatch.setattr(Group.Meta, "host", None)
-    monkeypatch.setattr(Assignment.Meta, "host", None)
-    monkeypatch.setattr(Participant.Meta, "host", None)
+    monkeypatch.setattr(GroupPynamoDB.Meta, "host", None)
+    monkeypatch.setattr(AssignmentPynamoDB.Meta, "host", None)
+    monkeypatch.setattr(ParticipantPynamoDB.Meta, "host", None)
 
     with mock_aws():
         try:
-            if not Group.exists():
-                Group.create_table(read_capacity_units=1, write_capacity_units=1, wait=True)
+            if not GroupPynamoDB.exists():
+                GroupPynamoDB.create_table(read_capacity_units=1, write_capacity_units=1, wait=True)
         except Exception:
             pass
 
         try:
-            if not Assignment.exists():
-                Assignment.create_table(read_capacity_units=1, write_capacity_units=1, wait=True)
+            if not AssignmentPynamoDB.exists():
+                AssignmentPynamoDB.create_table(
+                    read_capacity_units=1, write_capacity_units=1, wait=True
+                )
         except Exception:
             pass
 
         try:
-            if not Participant.exists():
-                Participant.create_table(read_capacity_units=1, write_capacity_units=1, wait=True)
+            if not ParticipantPynamoDB.exists():
+                ParticipantPynamoDB.create_table(
+                    read_capacity_units=1, write_capacity_units=1, wait=True
+                )
         except Exception:
             pass
 

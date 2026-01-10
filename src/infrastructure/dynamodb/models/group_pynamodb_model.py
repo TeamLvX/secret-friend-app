@@ -4,7 +4,7 @@ from pynamodb.models import Model
 from src.core.config import settings
 
 
-class Group(Model):
+class GroupPynamoDB(Model):
     class Meta:
         table_name = "group_collection"
         host = settings.dynamodb_host
