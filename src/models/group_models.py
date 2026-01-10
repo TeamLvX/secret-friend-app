@@ -3,7 +3,7 @@ from typing import Optional, List
 
 
 @dataclass
-class GroupModel:
+class Group:
     """Class for collecting entire group details and matching."""
 
     id: str | None

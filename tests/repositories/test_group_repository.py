@@ -1,12 +1,12 @@
 from datetime import datetime
-from src.models import GroupModel
+from src.models import Group
 from src.infrastructure.dynamodb.repositories import GroupPynamoDBRepository
 
 def test_save_and_get_group(mock_dynamodb_function):
     repo = GroupPynamoDBRepository()
 
     group = repo.save(
-        GroupModel.create(
+        Group.create(
             name="my secret santa group",
             description="we will play the secret santa gane in the office",
             exchange_date=datetime.now(),

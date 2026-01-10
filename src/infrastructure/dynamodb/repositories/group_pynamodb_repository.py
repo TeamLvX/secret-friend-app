@@ -3,11 +3,11 @@ from uuid import uuid4
 from pynamodb.exceptions import DoesNotExist
 
 from src.infrastructure.dynamodb.models import GroupPynamoDB
-from src.models import GroupModel
+from src.models import Group
 
 
 class GroupPynamoDBRepository:
-    def save(self, model: GroupModel) -> GroupModel:
+    def save(self, model: Group) -> Group:
         game_id = str(uuid4())
         item = GroupPynamoDB(
             id=game_id,
@@ -18,7 +18,7 @@ class GroupPynamoDBRepository:
             budget=model.budget,
         )
         item.save()
-        return GroupModel(
+        return Group(
             id=item.id,
             name=item.name,
             description=item.description,
@@ -29,10 +29,10 @@ class GroupPynamoDBRepository:
             assignment=None,
         )
 
-    def get(self, identifier: str) -> GroupModel | None:
+    def get(self, identifier: str) -> Group | None:
         try:
             item = GroupPynamoDB.get(identifier)
-            return GroupModel(
+            return Group(
                 id=item.id,
                 name=item.name,
                 description=item.description,

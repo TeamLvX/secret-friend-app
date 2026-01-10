@@ -3,11 +3,11 @@ from typing import List
 from pynamodb.exceptions import DoesNotExist
 
 from src.infrastructure.dynamodb.models import AssignmentPynamoDB
-from src.models import AssignmentModel, AssignmentsRead
+from src.models import Assignment
 
 
 class AssignmentPynamoDBRepository:
-    def save(self, assignment: AssignmentModel) -> AssignmentModel:
+    def save(self, assignment: Assignment) -> Assignment:
         assignment_id = str(uuid4())
         item = AssignmentPynamoDB(
             id=assignment_id,
@@ -18,7 +18,7 @@ class AssignmentPynamoDBRepository:
             shown_at=assignment.shown_at,
         )
         item.save()
-        return AssignmentModel(
+        return Assignment(
             id=item.id,
             group_id=item.group_id,
             group_name=None,
@@ -30,10 +30,10 @@ class AssignmentPynamoDBRepository:
             shown_at=item.shown_at,
         )
 
-    def get(self, id: str, group_id: str) -> AssignmentModel | None:
+    def get(self, id: str, group_id: str) -> Assignment | None:
         try:
             item = AssignmentPynamoDB.get(group_id, id)
-            return AssignmentModel(
+            return Assignment(
                 id=item.id,
                 group_id=item.group_id,
                 group_name=None,
@@ -47,11 +47,11 @@ class AssignmentPynamoDBRepository:
         except DoesNotExist:
             return None
 
-    def get_list(self, group_id: str) -> AssignmentsRead | None:
+    def get_list(self, group_id: str) -> list[Assignment] | None:
         try:
-            assignments: List[AssignmentModel] = []
+            assignments: List[Assignment] = []
             for item in AssignmentPynamoDB.query(group_id):
-                assignments.append(AssignmentModel(
+                assignments.append(Assignment(
                 id=item.id,
                 group_id=item.group_id,
                 group_name=None,
@@ -62,8 +62,6 @@ class AssignmentPynamoDBRepository:
                 status=item.status,
                 shown_at=item.shown_at
             ))
-            return AssignmentsRead(
-                assignments=assignments
-            )
+            return assignments
         except DoesNotExist:
             return None

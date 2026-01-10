@@ -3,7 +3,7 @@ from dataclasses import dataclass
 
 
 @dataclass
-class AssignmentModel:
+class Assignment:
     """Class for keeping assignment details."""
 
     id: str | None
@@ -61,4 +61,4 @@ class AssignmentCreate:
 class AssignmentsRead:
     """Class for collecting group of assignment details"""
 
-    assignments: list[AssignmentModel]
+    assignments: list[Assignment]

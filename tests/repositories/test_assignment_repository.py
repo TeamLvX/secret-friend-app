@@ -1,8 +1,6 @@
-from datetime import datetime
-
 import pytest
 from datetime import datetime
-from src.models import GroupModel, AssignmentModel
+from src.models import Group, Assignment
 from src.infrastructure.dynamodb.repositories import GroupPynamoDBRepository, AssignmentPynamoDBRepository
 
 @pytest.fixture(scope="function", autouse=True)
@@ -10,7 +8,7 @@ def default_group_model(mock_dynamodb_function):
     repo = GroupPynamoDBRepository()
 
     return repo.save(
-        GroupModel(
+        Group(
             id=None,
             name="my secret santa group",
             description="we will play the secret santa gane in the office",
@@ -26,7 +24,7 @@ def test_save_and_get_assignment(default_group_model):
     repo = AssignmentPynamoDBRepository()
 
     assignment = repo.save(
-        AssignmentModel.create(
+        Assignment.create(
             group_id=default_group_model.id,
             giver_id="1",
             receiver_id="2",
@@ -50,7 +48,7 @@ def test_save_and_get_assignment_by_group_id(default_group_model):
     stop = 6
     for item in range(1, stop):
         repo.save(
-            AssignmentModel.create(
+            Assignment.create(
                 group_id=default_group_model.id,
                 giver_id=str(item),
                 receiver_id=str(stop-item),
@@ -61,4 +59,4 @@ def test_save_and_get_assignment_by_group_id(default_group_model):
 
     results = repo.get_list(default_group_model.id)
     assert results is not None
-    assert len(results.assignments) == stop - 1
+    assert len(results) == stop - 1
