@@ -5,7 +5,7 @@ from src.core.config import settings
 
 
 def create_app() -> FastAPI:
-    app = FastAPI(tittle=settings.app_name, debug=settings.debug)
+    app = FastAPI(title=settings.app_name, debug=settings.debug)
 
     app.include_router(api_router, prefix="/api/v1")
     return app

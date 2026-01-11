@@ -38,17 +38,13 @@ def mock_dynamodb_function(monkeypatch):
 
         try:
             if not AssignmentPynamoDB.exists():
-                AssignmentPynamoDB.create_table(
-                    read_capacity_units=1, write_capacity_units=1, wait=True
-                )
+                AssignmentPynamoDB.create_table(read_capacity_units=1, write_capacity_units=1, wait=True)
         except Exception:
             pass
 
         try:
             if not ParticipantPynamoDB.exists():
-                ParticipantPynamoDB.create_table(
-                    read_capacity_units=1, write_capacity_units=1, wait=True
-                )
+                ParticipantPynamoDB.create_table(read_capacity_units=1, write_capacity_units=1, wait=True)
         except Exception:
             pass
 

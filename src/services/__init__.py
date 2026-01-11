@@ -1,7 +1,7 @@
-from src.services.game_service import GameService
 from src.services.assignment_service import AssignmentService
+from src.services.group_service import GroupService
 
 __all__ = [
     "AssignmentService",
-    "GameService",
+    "GroupService",
 ]

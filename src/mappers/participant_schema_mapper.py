@@ -1,5 +1,6 @@
-from src.schema import ParticipantDetailsResponse
 from src.models import Participant
+from src.schema import ParticipantDetailsResponse
+
 
 def participant_to_schema(arg: Participant) -> ParticipantDetailsResponse:
     return ParticipantDetailsResponse(

@@ -13,6 +13,13 @@ class ParticipantPynamoDBRepository:
             preferences=participant.preferences,
         ).save()
 
+    def save_list(self, participants: list[Participant]) -> list[Participant]:
+        with ParticipantPynamoDB.batch_write() as batch:
+            for order in participants:
+                batch.save(order)
+
+        return participants
+
     def get(self, group_id: str, participant_id: str) -> Participant | None:
         try:
             participant = ParticipantPynamoDB.get(group_id, participant_id)

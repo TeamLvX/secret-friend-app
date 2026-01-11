@@ -1,10 +1,13 @@
-from typing import Protocol, TypeVar
+from typing import Generic, Protocol, TypeVar
 
-TModel = TypeVar("TModel", bound="Repository")
+TModel = TypeVar("TModel")
 
 
-class Repository(Protocol[TModel]):
+class Repository(Protocol, Generic[TModel]):
     def save(self, model: TModel) -> TModel:
+        pass
+
+    def save_list(self, list_model: list[TModel]) -> list[TModel]:
         pass
 
     def get(self, arg1: str, arg2: str | None) -> TModel | None:

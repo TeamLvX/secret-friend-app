@@ -1,7 +1,8 @@
 import datetime
 
-from src.models import Assignment
 from src.contracts.repositories import Repository
+from src.models import Assignment
+
 
 class AssignmentService:
     def __init__(self, assignment_repository: Repository):
@@ -13,7 +14,5 @@ class AssignmentService:
             item.status = True
             item.shown_at = datetime.now()
             self.assignment_repository.save(item)
-        except Exception as e:
+        except Exception:
             pass
-
-

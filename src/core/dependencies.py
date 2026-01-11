@@ -1,27 +1,34 @@
 from fastapi import Depends
 
 from src.contracts.repositories import Repository
-from src.services import AssignmentService, GameService
-from src.infrastructure.dynamodb.repositories import AssignmentPynamoDBRepository, GroupPynamoDBRepository, ParticipantPynamoDBRepository
+from src.infrastructure.dynamodb.repositories import (
+    AssignmentPynamoDBRepository,
+    GroupPynamoDBRepository,
+    ParticipantPynamoDBRepository,
+)
+from src.models import Assignment, Group, Participant
+from src.services import AssignmentService, GroupService
 
 
-def get_assignment_repository() -> Repository:
+def get_assignment_repository() -> Repository[Assignment]:
     return AssignmentPynamoDBRepository()
 
-def get_participant_repository() -> Repository:
+
+def get_participant_repository() -> Repository[Participant]:
     return ParticipantPynamoDBRepository
 
-def get_group_repository() -> Repository:
+
+def get_group_repository() -> Repository[Group]:
     return GroupPynamoDBRepository()
 
-def get_assignment_service(
-        repo: Repository = Depends(get_assignment_repository)
-) -> AssignmentService:
+
+def get_assignment_service(repo: Repository[Assignment] = Depends(get_assignment_repository)) -> AssignmentService:
     return AssignmentService(repo)
 
-def get_game_service(
-        group_repository: Repository = Depends(get_assignment_repository),
-        assignment_repository: Repository = Depends(get_assignment_repository),
-        participant_repository: Repository = Depends(get_assignment_repository),
-) -> GameService:
-    return GameService(group_repository, assignment_repository, participant_repository)
+
+def get_group_service(
+    group_repository: Repository[Group] = Depends(get_assignment_repository),
+    assignment_repository: Repository[Assignment] = Depends(get_assignment_repository),
+    participant_repository: Repository[Participant] = Depends(get_assignment_repository),
+) -> GroupService:
+    return GroupService(group_repository, assignment_repository, participant_repository)
