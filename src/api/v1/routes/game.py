@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends, HTTPException, status
 
 from src.core.dependencies import get_assignment_service, get_group_service
-from src.schema.game import GameCreateRequest
+from src.schema import GameCreateRequest
 
 router = APIRouter()
 
@@ -13,7 +13,7 @@ def game_register(model: GameCreateRequest, service=Depends(get_group_service)):
 
 
 @router.get("/{game_id}/join")
-def game_join(game_id: str, service: Depends(get_group_service)):
+def game_join(game_id: str, service=Depends(get_group_service)):
     try:
         return service.show_game_details(game_id)
     except:

@@ -14,8 +14,6 @@ class Assignment(BaseModel):
 
 
 class AssignmentDetailsResponse(BaseModel):
-    """Class for keeping assignments details."""
-
     id: str | None = Field(description="ID of the assignment")
     giver_id: str = Field(description="ID of the giver participant")
     giver_name: str | None = Field(description="Name of giver participant")
