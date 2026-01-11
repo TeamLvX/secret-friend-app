@@ -2,7 +2,8 @@ from datetime import UTC, datetime
 
 from pydantic import BaseModel, Field
 
-from src.schema import AssignmentDetailsResponse, Participant, ParticipantDetailsResponse
+from .assignment import AssignmentDetailsResponse
+from .participant import Participant, ParticipantDetailsResponse
 
 
 class GameCreateRequest(BaseModel):
