@@ -62,20 +62,17 @@ class GroupService:
         return group_result.id
 
     def show_game_details(self, group_id: str) -> GameDetailsResponse | None:
-        try:
-            item: Group = self.group_repository.get(group_id, None)
-            assignments: list[AssignmentDetailsResponse] = [assignment_to_schema(x) for x in self.assignment_repository.get_list(group_id)]
-            participants: list[ParticipantDetailsResponse] = [participant_to_schema(x) for x in self.participant_repository.get_list(group_id)]
+        item: Group = self.group_repository.get(group_id, None)
+        assignments: list[AssignmentDetailsResponse] = [assignment_to_schema(x) for x in self.assignment_repository.get_list(group_id)]
+        participants: list[ParticipantDetailsResponse] = [participant_to_schema(x) for x in self.participant_repository.get_list(group_id)]
 
-            return GameDetailsResponse(
-                id=item.id,
-                name=item.name,
-                description=item.description,
-                host=item.host,
-                exchange_date=item.exchange_date,
-                budget=item.budget,
-                participants=participants,
-                assignments=assignments,
-            )
-        except Exception:
-            pass
+        return GameDetailsResponse(
+            id=item.id,
+            name=item.name,
+            description=item.description,
+            host=item.host,
+            exchange_date=item.exchange_date,
+            budget=item.budget,
+            participants=participants,
+            assignments=assignments,
+        )

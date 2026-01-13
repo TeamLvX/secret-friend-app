@@ -3,6 +3,7 @@ from uuid import uuid4
 from pynamodb.exceptions import DoesNotExist
 
 from src.contracts.repositories.base_repository import Repository
+from src.core.exceptions import ResourceNotFound
 from src.infrastructure.dynamodb.models import AssignmentPynamoDB
 from src.models import Assignment
 
@@ -46,7 +47,7 @@ class AssignmentPynamoDBRepository(Repository[Assignment]):
                 shown_at=item.shown_at,
             )
         except DoesNotExist:
-            return None
+            raise ResourceNotFound
 
     def get_list(self, group_id: str) -> list[Assignment] | None:
         try:

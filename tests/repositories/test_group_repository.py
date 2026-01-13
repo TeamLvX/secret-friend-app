@@ -18,7 +18,7 @@ def test_save_and_get_group(mock_dynamodb_function):
             assignments=None,
         )
     )
-    result = repo.get(group.id)
+    result = repo.get(group.id, arg2=None)
 
     assert result is not None
     assert result.id == group.id

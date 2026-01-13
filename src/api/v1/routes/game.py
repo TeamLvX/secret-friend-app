@@ -1,7 +1,8 @@
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import APIRouter, Depends, status
 
 from src.core.dependencies import get_assignment_service, get_group_service
 from src.schema import GameCreateRequest
+from src.services import AssignmentService, GroupService
 
 router = APIRouter()
 
@@ -12,21 +13,11 @@ def game_register(model: GameCreateRequest, service=Depends(get_group_service)):
     return group_id
 
 
-@router.get("/{game_id}/join")
-def game_join(game_id: str, service=Depends(get_group_service)):
-    try:
-        return service.show_game_details(game_id)
-    except:
-        raise HTTPException(
-            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-        )
+@router.get("/{group_id}/join")
+def group_join(group_id: str, service: GroupService = Depends(get_group_service)):
+    return service.show_game_details(group_id)
 
 
-@router.put("/{game_id}/assignments/{assignment_id}", status_code=status.HTTP_204_NO_CONTENT)
-def update_assignment(game_id: str, assignment_id: str, service=Depends(get_assignment_service)):
-    try:
-        service.update_status(game_id, assignment_id)
-    except:
-        raise HTTPException(
-            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-        )
+@router.put("/{group_id}/assignments/{assignment_id}", status_code=status.HTTP_204_NO_CONTENT)
+def update_assignment(group_id: str, assignment_id: str, service: AssignmentService = Depends(get_assignment_service)):
+    service.update_status(group_id, assignment_id)
