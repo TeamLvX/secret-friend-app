@@ -4,6 +4,7 @@ from uuid import uuid4
 from pynamodb.exceptions import DoesNotExist
 
 from src.contracts.repositories.base_repository import Repository
+from src.core.exceptions import GroupNotFound
 from src.infrastructure.dynamodb.models import GroupPynamoDB
 from src.models import Group
 
@@ -35,9 +36,9 @@ class GroupPynamoDBRepository(Repository[Group]):
             assignments=None,
         )
 
-    def get(self, identifier: str) -> Group | None:
+    def get(self, arg1: str, arg2: str | None) -> Group | None:
         try:
-            item = GroupPynamoDB.get(identifier)
+            item = GroupPynamoDB.get(arg1)
             # Convert datetime to ISO format string for domain model
             exchange_date_str = item.exchange_date.isoformat() if hasattr(item.exchange_date, "isoformat") else str(item.exchange_date)
             return Group(
@@ -51,4 +52,4 @@ class GroupPynamoDBRepository(Repository[Group]):
                 assignments=None,
             )
         except DoesNotExist:
-            return None
+            raise GroupNotFound(arg1)

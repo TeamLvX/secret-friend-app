@@ -9,6 +9,8 @@ class ParticipantPynamoDB(Model):
         table_name = "participant_collection"
         host = settings.dynamodb_host
         region = settings.aws_region
+        aws_access_key_id = settings.aws_access_key_id
+        aws_secret_access_key = settings.aws_secret_access_key
 
     group_id = UnicodeAttribute(hash_key=True)
     id = UnicodeAttribute(range_key=True)

@@ -1,9 +1,10 @@
+from src.contracts.repositories import Repository
 from src.infrastructure.dynamodb.mappers import participant_to_domain
 from src.infrastructure.dynamodb.models import ParticipantPynamoDB
 from src.models import Participant
 
 
-class ParticipantPynamoDBRepository:
+class ParticipantPynamoDBRepository(Repository[Participant]):
     def save(self, participant: Participant) -> None:
         ParticipantPynamoDB(
             group_id=participant.group_id,

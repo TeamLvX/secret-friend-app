@@ -7,7 +7,7 @@ from src.core.config import settings
 
 def test_dynamodb_connection():
     # DynamoDB endpoint URL
-    endpoint_url = "http://localhost:8001"
+    endpoint_url = "http://localhost:4566"
 
     # Create DynamoDB client using settings from config
     dynamodb_client = boto3.client(
