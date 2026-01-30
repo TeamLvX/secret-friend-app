@@ -8,7 +8,7 @@ def assignment_to_schema(arg: Assignment) -> AssignmentDetailsResponse:
         giver_id=arg.giver_id,
         giver_name=arg.giver_name,
         receiver_id=arg.receiver_id,
-        receiver_name=arg.giver_name,
+        receiver_name=arg.receiver_name,
         status=arg.status,
         shown_at=arg.shown_at,
     )

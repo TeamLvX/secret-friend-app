@@ -3,7 +3,7 @@ import random
 
 def random_cycle_assigments(data: list[str]) -> list[tuple[str, str]]:
     if len(data) < 2:
-        return ValueError("At least two members are required")
+        raise ValueError("At least two members are required")
 
     shuffled = data[:]
     random.shuffle(shuffled)

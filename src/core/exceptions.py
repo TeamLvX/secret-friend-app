@@ -57,3 +57,23 @@ class BadRequest(AppException):
             status_code=400,
             details={"field": field_name},
         )
+
+
+class InsufficientPlayers(AppException):
+    def __init__(self, player_count: int):
+        super().__init__(
+            message="At least two players are required to create assignments",
+            code="INSUFFICIENT_PLAYERS",
+            status_code=400,
+            details={"player_count": player_count, "minimum_required": 2},
+        )
+
+
+class GroupAlreadyExists(AppException):
+    def __init__(self, group_name: str):
+        super().__init__(
+            message=f"Group with name '{group_name}' already exists",
+            code="GROUP_ALREADY_EXISTS",
+            status_code=409,
+            details={"group_name": group_name},
+        )

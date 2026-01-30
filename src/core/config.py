@@ -10,8 +10,8 @@ class Settings(BaseSettings):
     debug: bool = Field(default=False)
     dynamodb_host: str = Field(validation_alias="DYNAMODB_ENDPOINT", default="")
     aws_region: str = Field(default="us-east-1")
-    aws_access_key_id: str
-    aws_secret_access_key: str
+    aws_access_key_id: str | None = None
+    aws_secret_access_key: str | None = None
 
     @field_validator("debug", mode="before")
     @classmethod

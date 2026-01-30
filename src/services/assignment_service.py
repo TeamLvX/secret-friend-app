@@ -10,6 +10,9 @@ class AssignmentService:
 
     def update_status(self, group_id: str, assignment_id: str):
         item: Assignment = self.assignment_repository.get(assignment_id, group_id)
+
+        exchange_date_str = datetime.datetime.now()
+
         item.status = True
-        item.shown_at = datetime.now()
+        item.shown_at = exchange_date_str
         self.assignment_repository.save(item)
