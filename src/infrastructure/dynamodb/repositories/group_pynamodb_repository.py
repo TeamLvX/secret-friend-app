@@ -6,13 +6,15 @@ from pynamodb.exceptions import DoesNotExist
 from src.contracts.repositories.base_repository import Repository
 from src.core.exceptions import GroupNotFound
 from src.infrastructure.dynamodb.models import GroupPynamoDB
+from src.infrastructure.dynamodb.transaction_context import DynamoDBTransactionContext
 from src.models import Group
 
 
 class GroupPynamoDBRepository(Repository[Group]):
     def save(self, model: Group) -> Group:
-        game_id = str(uuid4())
+        game_id = model.id or str(uuid4())
         # Convert string exchange_date to datetime for PynamoDB
+
         exchange_date_dt = datetime.fromisoformat(model.exchange_date) if isinstance(model.exchange_date, str) else model.exchange_date
         item = GroupPynamoDB(
             id=game_id,
@@ -22,7 +24,13 @@ class GroupPynamoDBRepository(Repository[Group]):
             host=model.host,
             budget=model.budget,
         )
-        item.save()
+
+        transaction_context = DynamoDBTransactionContext.get_current()
+        if transaction_context:
+            transaction_context.save(item)
+        else:
+            item.save()
+
         # Convert datetime back to ISO format string for domain model
         exchange_date_str = item.exchange_date.isoformat() if hasattr(item.exchange_date, "isoformat") else str(item.exchange_date)
         return Group(
@@ -53,3 +61,9 @@ class GroupPynamoDBRepository(Repository[Group]):
             )
         except DoesNotExist:
             raise GroupNotFound(arg1)
+
+    def exists_by_name(self, name: str) -> bool:
+        """Check if a group with the given name already exists."""
+        for _item in GroupPynamoDB.scan(GroupPynamoDB.name == name):
+            return True
+        return False

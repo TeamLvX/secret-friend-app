@@ -8,8 +8,8 @@ router = APIRouter()
 
 
 @router.post("/")
-def game_register(model: GameCreateRequest, service=Depends(get_group_service)):
-    group_id = service.save(model)
+def game_register(model: GameCreateRequest, service: GroupService = Depends(get_group_service)):
+    group_id = service.save_game(model)
     return group_id
 
 

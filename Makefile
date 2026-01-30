@@ -1,16 +1,28 @@
 lint: 
-	ruff check .
-	black --check .
+	uv run ruff check .
+	uv run black --check .
 
 format:
-	ruff check . --fix
-	black .
+	uv run ruff check . --fix
+	uv run black .
 
 install:
-	pip install -r requirements.txt
+	uv sync --all-groups
+
+install-prod:
+	uv sync
 
 run:
-	uvicorn src.main:app --port=3000 --reload
+	uv run uvicorn src.main:app --port=3000 --reload
+
+debug:
+	DEBUG=true uv run uvicorn src.main:app --port=3000 --reload --log-level debug
+
+test:
+	uv run pytest
+
+exp-requirements:
+	uv export --format requirements.txt
 
 
 

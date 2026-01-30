@@ -17,4 +17,4 @@ class GroupPynamoDB(Model):
     description = UnicodeAttribute(null=True)
     host = UnicodeAttribute(null=False)
     exchange_date = UTCDateTimeAttribute(null=False)
-    budget = NumberAttribute(null=True, default=0)
+    budget = NumberAttribute(null=True)

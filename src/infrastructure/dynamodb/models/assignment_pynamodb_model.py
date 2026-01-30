@@ -18,3 +18,6 @@ class AssignmentPynamoDB(Model):
     receiver_id = UnicodeAttribute()
     status = BooleanAttribute(default=False)
     shown_at = UTCDateTimeAttribute(null=True)
+    group_name = UnicodeAttribute(null=True)
+    giver_name = UnicodeAttribute(null=True)
+    receiver_name = UnicodeAttribute(null=True)
