@@ -1,4 +1,4 @@
-from pynamodb.attributes import UnicodeAttribute
+from pynamodb.attributes import BooleanAttribute, UnicodeAttribute
 from pynamodb.models import Model
 
 from src.core.config import settings
@@ -9,12 +9,12 @@ class ParticipantPynamoDB(Model):
         table_name = "participant_collection"
         host = settings.dynamodb_host
         region = settings.aws_region
-        aws_access_key_id = settings.aws_access_key_id
-        aws_secret_access_key = settings.aws_secret_access_key
+        aws_access_key_id = settings.aws_access_key_id or None
+        aws_secret_access_key = settings.aws_secret_access_key or None
 
     group_id = UnicodeAttribute(hash_key=True)
     id = UnicodeAttribute(range_key=True)
     name = UnicodeAttribute()
     alias = UnicodeAttribute(null=True)
     preferences = UnicodeAttribute(null=True)
-    viewed = UnicodeAttribute()
+    viewed = BooleanAttribute(default=False)

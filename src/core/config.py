@@ -10,8 +10,8 @@ class Settings(BaseSettings):
     debug: bool = Field(default=False)
     dynamodb_host: str | None = Field(validation_alias="DYNAMODB_ENDPOINT", default=None)
     aws_region: str = Field(default="us-east-1")
-    aws_access_key_id: str | None = None
-    aws_secret_access_key: str | None = None
+    aws_access_key_id: str | None = Field(default=None)
+    aws_secret_access_key: str | None = Field(default=None)
 
     # CORS Configuration
     cors_origins: list[str] = Field(default=["http://localhost:3000"], description="Allowed CORS origins")
