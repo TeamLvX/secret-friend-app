@@ -11,6 +11,7 @@ install:
 
 install-prod:
 	uv sync --frozen
+	uv cache prune --ci
 
 run:
 	uv run uvicorn src.main:app --port=3000 --reload
