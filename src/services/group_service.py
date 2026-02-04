@@ -1,9 +1,9 @@
 from src.contracts.repositories import Repository
 from src.core.exceptions import GroupAlreadyExists, InsufficientPlayers
 from src.infrastructure.dynamodb.transaction_context import DynamoDBTransactionContext
-from src.mappers import assignment_to_schema, participant_to_schema
+from src.mappers import participant_to_schema
 from src.models import Assignment, Group, Participant
-from src.schema import AssignmentDetailsResponse, GameCreateRequest, GameDetailsResponse, ParticipantDetailsResponse
+from src.schema import GameCreateRequest, GameDetailsResponse, ParticipantDetailsResponse
 from src.shared import random_cycle_assigments
 
 
@@ -83,7 +83,7 @@ class GroupService:
 
     def show_game_details(self, group_id: str) -> GameDetailsResponse | None:
         item: Group = self.group_repository.get(group_id, None)
-        assignments: list[AssignmentDetailsResponse] = [assignment_to_schema(x) for x in self.assignment_repository.get_list(group_id)]
+        # assignments: list[AssignmentDetailsResponse] = [assignment_to_schema(x) for x in self.assignment_repository.get_list(group_id)]
         participants: list[ParticipantDetailsResponse] = [participant_to_schema(x) for x in self.participant_repository.get_list(group_id)]
 
         return GameDetailsResponse(
@@ -94,5 +94,4 @@ class GroupService:
             exchange_date=item.exchange_date,
             budget=item.budget,
             participants=participants,
-            assignments=assignments,
         )

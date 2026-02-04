@@ -2,8 +2,7 @@ from datetime import UTC, datetime
 
 from pydantic import BaseModel, Field
 
-from .assignment import AssignmentDetailsResponse
-from .participant import Participant, ParticipantDetailsResponse
+from .participant import ParticipantCreateRequest, ParticipantDetailsResponse
 
 
 class GameCreateRequest(BaseModel):
@@ -12,7 +11,7 @@ class GameCreateRequest(BaseModel):
     host: str = Field(min_length=1, description="Game's organizer")
     exchange_date: datetime = Field(default_factory=lambda: UTC, description="Game's datetime to exchange gifs")
     budget: float = Field(ge=0.0, description="Game's budget of the gifs")
-    players: list[Participant] = Field(default_factory=list, description="Game's participants")
+    players: list[ParticipantCreateRequest] = Field(default_factory=list, description="Game's participants")
 
 
 class GameDetailsResponse(BaseModel):
@@ -25,7 +24,6 @@ class GameDetailsResponse(BaseModel):
     exchange_date: str
     budget: float
     participants: list[ParticipantDetailsResponse]
-    assignments: list[AssignmentDetailsResponse]
 
 
 """

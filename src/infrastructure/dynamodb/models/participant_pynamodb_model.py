@@ -17,3 +17,4 @@ class ParticipantPynamoDB(Model):
     name = UnicodeAttribute()
     alias = UnicodeAttribute(null=True)
     preferences = UnicodeAttribute(null=True)
+    viewed = UnicodeAttribute()

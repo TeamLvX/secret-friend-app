@@ -13,6 +13,12 @@ class Settings(BaseSettings):
     aws_access_key_id: str | None = None
     aws_secret_access_key: str | None = None
 
+    # CORS Configuration
+    cors_origins: list[str] = Field(default=["http://localhost:3000"], description="Allowed CORS origins")
+    cors_allow_credentials: bool = Field(default=True, description="Allow credentials in CORS requests")
+    cors_allow_methods: list[str] = Field(default=["*"], description="Allowed HTTP methods for CORS")
+    cors_allow_headers: list[str] = Field(default=["*"], description="Allowed headers for CORS")
+
     @field_validator("debug", mode="before")
     @classmethod
     def parse_debug(cls, v):
