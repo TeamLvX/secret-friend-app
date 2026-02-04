@@ -10,10 +10,13 @@ install:
 	uv sync --all-groups
 
 install-prod:
-	uv sync
+	uv sync --frozen
 
 run:
 	uv run uvicorn src.main:app --port=3000 --reload
+
+run-prod:
+	uv run uvicorn src.main:app --host 0.0.0.0 --port $PORT
 
 run-cloudflared:
 	cloudflared tunnel --url http://127.0.0.1:3000
