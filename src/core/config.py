@@ -8,7 +8,7 @@ class Settings(BaseSettings):
     app_name: str = Field(default="Secret Friend App")
     env: str = Field(default="development")
     debug: bool = Field(default=False)
-    dynamodb_host: str = Field(validation_alias="DYNAMODB_ENDPOINT", default="")
+    dynamodb_host: str | None = Field(validation_alias="DYNAMODB_ENDPOINT", default=None)
     aws_region: str = Field(default="us-east-1")
     aws_access_key_id: str | None = None
     aws_secret_access_key: str | None = None

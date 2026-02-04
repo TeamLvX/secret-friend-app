@@ -12,6 +12,10 @@ from src.infrastructure.dynamodb.init_tables import init_tables
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     """Lifespan event handler for startup and shutdown tasks."""
+    print(f"[STARTUP] Environment: {settings.env}")
+    print(f"[STARTUP] DynamoDB Endpoint: {settings.dynamodb_host or 'AWS Default'}")
+    print(f"[STARTUP] AWS Region: {settings.aws_region}")
+    print(f"[STARTUP] AWS Credentials: {'Configured' if settings.aws_access_key_id else 'Not Set'}")
     init_tables()
     yield
 
