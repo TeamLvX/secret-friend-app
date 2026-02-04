@@ -9,8 +9,8 @@ class GroupPynamoDB(Model):
         table_name = "group_collection"
         host = settings.dynamodb_host
         region = settings.aws_region
-        aws_access_key_id = settings.aws_access_key_id
-        aws_secret_access_key = settings.aws_secret_access_key
+        aws_access_key_id = settings.aws_access_key_id or None
+        aws_secret_access_key = settings.aws_secret_access_key or None
 
     id = UnicodeAttribute(hash_key=True, null=False)
     name = UnicodeAttribute(null=False)
