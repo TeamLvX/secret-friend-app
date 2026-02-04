@@ -22,8 +22,11 @@ def get_group_repository() -> Repository[Group]:
     return GroupPynamoDBRepository()
 
 
-def get_assignment_service(repo: Repository[Assignment] = Depends(get_assignment_repository)) -> AssignmentService:
-    return AssignmentService(repo)
+def get_assignment_service(
+    assignment_repository: Repository[Assignment] = Depends(get_assignment_repository),
+    participant_repository: Repository[Participant] = Depends(get_participant_repository),
+) -> AssignmentService:
+    return AssignmentService(assignment_repository, participant_repository)
 
 
 def get_group_service(

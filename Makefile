@@ -15,6 +15,9 @@ install-prod:
 run:
 	uv run uvicorn src.main:app --port=3000 --reload
 
+run-cloudflared:
+	cloudflared tunnel --url http://127.0.0.1:3000
+
 debug:
 	DEBUG=true uv run uvicorn src.main:app --port=3000 --reload --log-level debug
 

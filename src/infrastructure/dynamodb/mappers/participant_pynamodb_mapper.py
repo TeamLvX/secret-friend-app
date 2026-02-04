@@ -9,14 +9,11 @@ def participant_paynamodb_to_domain(dynamoModel: ParticipantPynamoDB) -> Partici
         name=dynamoModel.name,
         alias=dynamoModel.alias,
         preferences=dynamoModel.preferences,
+        viewed=dynamoModel.viewed,
     )
 
 
 def participant_domain_to_paynamodb(model: Participant) -> ParticipantPynamoDB:
     return ParticipantPynamoDB(
-        group_id=model.group_id,
-        id=model.id,
-        name=model.name,
-        alias=model.alias,
-        preferences=model.preferences,
+        group_id=model.group_id, id=model.id, name=model.name, alias=model.alias, preferences=model.preferences, viewed=model.viewed
     )
