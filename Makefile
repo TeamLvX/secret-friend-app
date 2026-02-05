@@ -13,6 +13,21 @@ install-prod:
 	uv sync --frozen
 	uv cache prune --ci
 
+initialize:
+	docker compose up
+
+build-image:
+	docker build -t $(APP_NAME) .
+
+docker-run:
+	docker run -p $(PORT):3000 --network $(APP_NAME)_default --env-file .env -e DYNAMODB_ENDPOINT=http://localstack:4566 --name $(APP_NAME) $(APP_NAME)
+
+deploy:
+	terraform apply -auto-approve
+
+destroy:
+	terraform destroy -auto-approve
+
 run:
 	uv run uvicorn src.main:app --port=3000 --reload
 
