@@ -69,3 +69,14 @@ dist/
 # Uvicorn / FastAPI
 # =========================
 uvicorn.log
+
+# =========================
+# Local Terraform-related directories/files
+# =========================
+**/.terraform/*
+*.tfstate
+*.tfstate.*
+*.hcl
+*.tfvars
+*.tfvars.json
+
