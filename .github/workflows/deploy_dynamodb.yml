@@ -1,0 +1,141 @@
+name: Deploy resources on cloud provider
+
+on:
+  workflow_dispatch:
+    inputs:
+      action:
+        description: 'action to be performed'
+        required: true
+        default: 'apply-action'
+        type: choice
+        options:
+          - "apply-action"
+          - "destroy-action"
+
+env:
+  TF_VERSION: '1.6.6'
+  AWS_REGION: 'us-east-1'
+
+jobs:
+  deployment:
+    if: inputs.action == 'apply-action'
+    name: Deploy DynamoDB resources
+    runs-on: ubuntu-latest
+
+    # These permissions are needed for the GitHub token
+    permissions:
+      contents: read
+      pull-requests: write
+
+    defaults:
+      run:
+        working-directory: infra/terraform/dynamodb
+
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@v4
+
+      - name: Set up Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: ${{ env.TF_VERSION }}
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Setup terraform variables
+        id: vars
+        run: |-
+          cat > terraform.tfvars <<EOF
+          AWS_REGION="${{ env.AWS_REGION }}"
+          EOF
+
+      - name: Terraform Init
+        run: terraform init -backend-config=../envs/dev/backend.hcl
+
+      - name: Terraform Validate
+        id: validate
+        run: terraform validate -no-color
+
+      - name: Terraform Plan
+        id: plan
+        run: |
+          terraform plan -no-color -input=false
+        continue-on-error: true
+
+      - name: Comment Plan on PR
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const output = `#### Terraform Format and Style 🖌\`${{ steps.fmt.outcome }}\`
+            #### Terraform Initialization ⚙️\`${{ steps.init.outcome }}\`
+            #### Terraform Validation 🤖\`${{ steps.validate.outcome }}\`
+            #### Terraform Plan 📖\`${{ steps.plan.outcome }}\`
+            
+            <details><summary>Show Plan</summary>
+            
+            \`\`\`terraform
+            ${{ steps.plan.outputs.stdout }}
+            \`\`\`
+            
+            </details>
+            
+            *Pushed by: @${{ github.actor }}, Action: \`${{ github.event_name }}\`*`;
+            
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: output
+            })
+
+      - name: Terraform Plan Status
+        if: steps.plan.outcome == 'failure'
+        run: exit 1
+
+      - name: Terraform Apply
+        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+        run: terraform apply -auto-approve -input=false
+
+  destroy:
+    if: inputs.action == 'destroy-action'
+    name: Destroy DynamoDB resources
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: infra/terraform/dynamodb
+
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@v4
+
+      - name: Set up Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: ${{ env.TF_VERSION }}
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Setup terraform variables
+        id: vars
+        run: |-
+          cat > terraform.tfvars <<EOF
+          AWS_REGION="${{ env.AWS_REGION }}"
+          EOF
+
+      - name: Terraform Init
+        run: terraform init -backend-config=../envs/dev/backend.hcl
+
+      - name: Terraform Destroy
+        run: terraform destroy -auto-approve -input=false

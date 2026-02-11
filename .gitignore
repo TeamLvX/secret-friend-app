@@ -76,7 +76,16 @@ uvicorn.log
 **/.terraform/*
 *.tfstate
 *.tfstate.*
-*.hcl
 *.tfvars
 *.tfvars.json
+
+# CLI config files
+.terraformrc
+terraform.rc
+
+# Override files
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
 
