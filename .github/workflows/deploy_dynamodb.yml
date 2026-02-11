@@ -1,4 +1,4 @@
-name: Deploy resources on cloud provider
+name: Deploy DynamoDB resource
 
 on:
   workflow_dispatch:
@@ -21,6 +21,7 @@ jobs:
     if: inputs.action == 'apply-action'
     name: Deploy DynamoDB resources
     runs-on: ubuntu-latest
+    environment: development
 
     # These permissions are needed for the GitHub token
     permissions:
@@ -106,6 +107,7 @@ jobs:
     if: inputs.action == 'destroy-action'
     name: Destroy DynamoDB resources
     runs-on: ubuntu-latest
+    environment: development
 
     defaults:
       run:
