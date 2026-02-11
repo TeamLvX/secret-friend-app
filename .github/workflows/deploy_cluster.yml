@@ -1,4 +1,4 @@
-name: Deploy DynamoDB resource
+name: Deploy ECS Cluster resource
 
 on:
   workflow_dispatch:
@@ -19,13 +19,13 @@ env:
 jobs:
   deployment:
     if: inputs.action == 'apply-action'
-    name: Deploy DynamoDB resources
+    name: Deploy ECS Cluster resources
     runs-on: ubuntu-latest
     environment: development
 
     defaults:
       run:
-        working-directory: infra/terraform/dynamodb
+        working-directory: infra/terraform/cluster
 
     steps:
       - name: Check out the repo
@@ -72,7 +72,7 @@ jobs:
 
     defaults:
       run:
-        working-directory: infra/terraform/dynamodb
+        working-directory: infra/terraform/cluster
 
     steps:
       - name: Check out the repo
