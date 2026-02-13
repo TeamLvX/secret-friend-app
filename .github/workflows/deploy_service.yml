@@ -1,4 +1,4 @@
-name: Deploy ECS Cluster resource
+name: Deploy Service resource
 
 on:
   workflow_dispatch:
@@ -19,13 +19,13 @@ env:
 jobs:
   deployment:
     if: inputs.action == 'apply-action'
-    name: Deploy ECS Cluster resources
+    name: Deploy Service
     runs-on: ubuntu-latest
     environment: development
 
     defaults:
       run:
-        working-directory: infra/terraform/cluster
+        working-directory: infra/terraform/service
 
     steps:
       - name: Check out the repo
@@ -66,13 +66,13 @@ jobs:
 
   destroy:
     if: inputs.action == 'destroy-action'
-    name: Destroy ECS Cluster resources
+    name: Destroy Service
     runs-on: ubuntu-latest
     environment: development
 
     defaults:
       run:
-        working-directory: infra/terraform/cluster
+        working-directory: infra/terraform/service
 
     steps:
       - name: Check out the repo
@@ -95,6 +95,9 @@ jobs:
         run: |-
           cat > terraform.tfvars <<EOF
           AWS_REGION="${{ env.AWS_REGION }}"
+          CLUSTER_ARN="${{ vars.CLUSTER_ARN }}"
+          APP_IMAGE_NAME="${{ vars.APP_IMAGE_NAME }}"
+          APP_ROLE_ARN="${{ vars.APP_ROLE_ARN }}"
           EOF
 
       - name: Terraform Init
